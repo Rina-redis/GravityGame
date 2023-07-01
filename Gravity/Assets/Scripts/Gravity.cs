@@ -12,6 +12,7 @@ public class Gravity : MonoBehaviour
 
     private void Start()
     {
+        Physics.gravity = new Vector3 (0, -26f, 0);
         downRotation = cameraObj.transform.rotation;
         upRotation = Quaternion.Euler(-30f, cameraObj.transform.rotation.eulerAngles.y, cameraObj.transform.rotation.eulerAngles.z);
     }
