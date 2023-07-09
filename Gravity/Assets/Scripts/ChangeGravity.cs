@@ -24,12 +24,14 @@ public class ChangeGravity : MonoBehaviour
     private float startSpeed = 600;
     [SerializeField]
     public int maxSpeed = 800;
- 
+
+    [SerializeField]
+    private  GameObject cameraObj;
+
     private void Start()
     {
         RefreshGravityObjects();
     }
-
 
     void Update()
     {

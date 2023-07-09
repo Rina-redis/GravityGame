@@ -369,6 +369,7 @@
 "Assets/DisableFreeLook.cs"
 "Assets/PlayerController.cs"
 "Assets/PlayerMovement.cs"
+"Assets/Scripts/ChangeCameraRotation.cs"
 "Assets/Scripts/ChangeGravity.cs"
 "Assets/Scripts/CharacterMover.cs"
 "Assets/Scripts/Gravity.cs"
