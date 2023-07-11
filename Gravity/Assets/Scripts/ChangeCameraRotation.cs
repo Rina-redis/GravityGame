@@ -9,7 +9,6 @@ public class ChangeCameraRotation : MonoBehaviour
     private CinemachineVirtualCamera cinemacineVirtualCamera;
 
     public float rotationSpeed;
-    private Vector3 upRotation;
     private Vector3 downRotation;
     CinemachineFramingTransposer framingTransposer;
     private bool flag = true;
@@ -22,7 +21,7 @@ public class ChangeCameraRotation : MonoBehaviour
             Debug.LogWarning("nema");
         }
          downRotation = framingTransposer.m_TrackedObjectOffset;
-         upRotation = new Vector3(0, 5.13f, 0);
+      //   upRotation = new Vector3(0, 5.13f, 0);
     }
 
     private void Update()
@@ -31,7 +30,7 @@ public class ChangeCameraRotation : MonoBehaviour
         {
           if (flag == true)
             {
-                framingTransposer.m_TrackedObjectOffset = upRotation;           
+               // framingTransposer.m_TrackedObjectOffset = upRotation;           
             }
             else
             {
