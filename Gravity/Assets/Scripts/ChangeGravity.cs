@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Cinemachine;
 
 public class ChangeGravity : MonoBehaviour
 {
@@ -17,19 +18,21 @@ public class ChangeGravity : MonoBehaviour
 
     //public only for debug
     public State currentState = State.IsStand;
-    public float currentSpeed = 600;
+    public float acceleratedSpeed = 600;
     public bool flag = true;
 
     [SerializeField]
     private float startSpeed = 600;
     [SerializeField]
     public int maxSpeed = 800;
- 
+
+    [SerializeField]
+    private CinemachineVirtualCamera cameraObj;
+
     private void Start()
     {
         RefreshGravityObjects();
     }
-
 
     void Update()
     {
@@ -42,15 +45,22 @@ public class ChangeGravity : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
             currentState = State.IsFly;
+            SwitchCamera();
             ChangingGravity();
         }  
     }
 
+    private void SwitchCamera()
+    {
+      //  Debug.LogError("aloooo");
+        cameraObj.Priority = flag ? 0 : 2; 
+    }
+
     private void IncreaseAcceleration()
     {
-        if (currentSpeed < maxSpeed)
+        if (acceleratedSpeed < maxSpeed)
         {
-            currentSpeed += acceleration * Time.deltaTime ;
+            acceleratedSpeed += acceleration * Time.deltaTime ;
         } 
     }
 
@@ -69,7 +79,7 @@ public class ChangeGravity : MonoBehaviour
             foreach (Rigidbody rb in gravityChangable)
             {   
                 rb.useGravity = false;
-                rb.AddForce(transform.up * currentSpeed);
+                rb.AddForce(transform.up * acceleratedSpeed);
             }
         }
         else
@@ -77,7 +87,8 @@ public class ChangeGravity : MonoBehaviour
 
             foreach (Rigidbody rb in gravityChangable)
             {
-                rb.AddForce(-transform.up * currentSpeed);
+                rb.useGravity = true;
+                rb.AddForce(-transform.up * startSpeed);
             }
         }
         flag = !flag;

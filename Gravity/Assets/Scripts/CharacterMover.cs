@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,10 +32,10 @@ public class CharacterMover : MonoBehaviour
         var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
         var movementVector = new Vector3(RotateFromMouseVector().x - transform.position.x, transform.position.y, RotateFromMouseVector().z - transform.position.z);
 
-        MoveTowardTarget(movementVector * targetVector.z);
+        MoveTowardTarget(movementVector.normalized, targetVector);
 
-        Debug.Log(targetVector.x+ " "+ targetVector.y + " " + targetVector.z);
-        Debug.Log(movementVector.x + " " + movementVector.y + " " + movementVector.z);
+        Debug.Log( "target " + targetVector.x + " " + targetVector.y + " " + targetVector.z);
+        Debug.Log( "movement " + movementVector.normalized.x + " " + movementVector.normalized.y + " " + movementVector.normalized.z);
 
 
         if (!RotateTowardMouse)
@@ -64,16 +65,29 @@ public class CharacterMover : MonoBehaviour
         return Vector3.zero;
     }
 
-    private Vector3 MoveTowardTarget(Vector3 targetVector)
+    private Vector3 MoveTowardTarget(Vector3 movementVector, Vector3 targetVector)
     {
         var speed = MovementSpeed * Time.deltaTime;
-       // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime)); //Demonstrate why this doesn't work
-       // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime), Camera.gameObject.transform);
+        // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime)); //Demonstrate why this doesn't work
+        // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime), Camera.gameObject.transform);
 
-       // targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
+        // targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
 
-        var targetPosition = transform.position + targetVector * speed;
-        transform.position = targetPosition;
+        //var targetPosition = transform.position + targetVector * speed;
+        // transform.position = targetPosition;
+
+
+        if (Math.Abs(targetVector.z) > 0.01f)
+        {
+            var targetPosition = transform.position + (movementVector * targetVector.z) * speed;
+            transform.position = targetPosition;
+        }
+        else if ((Math.Abs(targetVector.x) > 0.01f))
+        {
+            var targetPosition = transform.position + targetVector * speed;
+            transform.position = targetPosition;
+        }
+        
 
 
         return targetVector;
